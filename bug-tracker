@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Bug {
+    int id;
+    char title[100];
+    char status[20];
+};
+
+void addBug() {
+    FILE *file = fopen("bugs.txt", "a");
+    struct Bug b;
+
+    printf("Enter Bug ID: ");
+    scanf("%d", &b.id);
+    getchar();
+
+    printf("Enter Bug Title: ");
+    fgets(b.title, 100, stdin);
+
+    strcpy(b.status, "Open");
+
+    fprintf(file, "%d|%s|%s\n", b.id, b.title, b.status);
+    fclose(file);
+
+    printf("Bug added successfully!\n");
+}
+
+void viewBugs() {
+    FILE *file = fopen("bugs.txt", "r");
+    struct Bug b;
+
+    if (file == NULL) {
+        printf("No bugs found.\n");
+        return;
+    }
+
+    printf("\n--- Bug List ---\n");
+    while (fscanf(file, "%d|%[^|]|%[^\n]\n", &b.id, b.title, b.status) != EOF) {
+        printf("ID: %d\nTitle: %sStatus: %s\n\n", b.id, b.title, b.status);
+    }
+
+    fclose(file);
+}
+
+int main() {
+    int choice;
+
+    while (1) {
+        printf("\n--- Bug Tracker ---\n");
+        printf("1. Add Bug\n");
+        printf("2. View Bugs\n");
+        printf("3. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: addBug(); break;
+            case 2: viewBugs(); break;
+            case 3: exit(0);
+            default: printf("Invalid choice\n");
+        }
+    }
+
+    return 0;
+}
