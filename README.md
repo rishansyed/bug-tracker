@@ -24,4 +24,4 @@ It allows users to add and view bugs.
 - bugs.txt
 
 ## 👤 Author
-Your Name
+Rishan Syed
